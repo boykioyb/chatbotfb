@@ -36,8 +36,12 @@ var isStopped = false;
 var app = express();
 
 app.set('port', process.env.PORT || 1337);
-// app.use(bodyParser.json({ verify: verifyRequestSignature }));
-app.use(express.static('public'));
+app.use(bodyParser.json({ verify: verifyRequestSignature }));
+// app.use(express.static('public'));
+app.use(express.static(__dirname + '/public'));
+app.set('views', __dirname + '/public');
+app.engine('html', require('ejs').renderFile);
+app.set('view engine', 'html');
 
 /*
  * Be sure to setup your config values before running this code. You can 
@@ -66,6 +70,10 @@ if (!(APP_SECRET && VALIDATION_TOKEN && PAGE_ACCESS_TOKEN)) {
 app.get('/login', function (req, res) {
   console.log(req);
   
+});
+
+app.get('/privacy',function(req,res){
+   return res.render('privacy.html');
 });
 
 
